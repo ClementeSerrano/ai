@@ -36,7 +36,7 @@ def resolve_path(r, c,x_end,y_end):
         print("Obj :",r,",",c)
         return True;
     #check if safe to visit the cells in IF 
-    if r>=0 and c>=0 and r<x_end and c<y_end and solution_path[r][c] == 0 and board_game[r][c] == 0:
+    if r>=0 and c>=0 and r<N and c<N and solution_path[r][c] == 0 and board_game[r][c] == 0:
         #if safe to visit then visit the cell
         solution_path[r][c] = 1
         #down
@@ -76,10 +76,12 @@ for i in range(len(board_game)):
     print(" ")
 
 print(" ")
+co1=int(input("please put obj x:"))
+co2=int(input("please put obj y:"))
 print("\nPATH SOLUTION\n")
 #resolve_path recive the coord Ini: 2,4
 #and de the obj the in this case is 5,5
-if(resolve_path(2,4,5,5)):
+if(resolve_path(2,4,co1,co2)):
     
     coord_path.reverse()
     print("\nCOORD OF THE PATH : ",coord_path)

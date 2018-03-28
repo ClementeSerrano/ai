@@ -40,13 +40,13 @@ def resolverpath(r, c,x_fin,y_fin):
     if (r==x_fin-1) and (c==y_fin-1):
         solucion[r][c] = 1;
         coordenadas.append((r,c))
-        print("Se llego al punto objetivo R",r,"C",c)
+        print("OBJ: ",r,",",c)
         
         return True;
     #se chequea si es posible acceder a una celda
     #solution[r][c] == 0 se ve si no se ha visitado
     #maze[r][c] == 0 se ve si no esta bloqueado
-    if r>=0 and c>=0 and r<x_fin and c<y_fin and solucion[r][c] == 0 and laberinto[r][c] == 0:
+    if r>=0 and c>=0 and r<N and c<N and solucion[r][c] == 0 and laberinto[r][c] == 0:
         #if safe to visit then visit the cell
         solucion[r][c] = 1
         #hacia abajo

@@ -3,6 +3,7 @@ import pyglet
 import random
 import sys
 import math
+import pacman
 from pacman import *
 from enemigo import *
 
@@ -42,7 +43,7 @@ class Fantasma(Enemigo):
 
     def mover_aleatorio(self):
         posiciones=list(range(0,len(self.movimientos)))
-    
+            
         while len(posiciones)>0:
             i=random.choice(posiciones)
             
@@ -52,11 +53,16 @@ class Fantasma(Enemigo):
             if self.movimiento_posible(movimiento):
                 self.mover(movimiento)
                 return
-
+        
     def mover(self,movimiento):
         p=self.laberinto.en_celda(self.sprite.x,self.sprite.y)
+        #print("P !",p)
+        #print("SOY EL FANTASMA\nCOORD",pacman.coord)
+        #print("movimiento x",movimiento[0])
+        #print("movimiento y",movimiento[1])
         self.laberinto.mapa[p[0]][p[1]]=0
         self.sprite.x+=movimiento[0]
         self.sprite.y+=movimiento[1]
         p=self.laberinto.en_celda(self.sprite.x,self.sprite.y)
+        #print("SOY EL FANTASMA P",p)
         self.laberinto.mapa[p[0]][p[1]]=self

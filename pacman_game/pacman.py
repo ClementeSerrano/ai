@@ -7,6 +7,8 @@ from comida import *
 from enemigo import *
 import pathfantasma 
 
+coord=[]
+
 class Pacman:
     def __init__(self,laberinto):
         self.atlas=pyglet.image.load("resources/pacman.png")
@@ -68,21 +70,31 @@ class Pacman:
             p=self.laberinto.en_celda(ox,oy)
             self.laberinto.mapa[p[0]][p[1]]=0
             p=self.laberinto.en_celda(self.sprite.x,self.sprite.y)
-           #se define la coordenada del mono
-            print("p",p)
-            pathfantasma.solucion = [[0]*9 for _ in range(9)]
+           
+           
+            #pathfantasma.solucion = [[0]*9 for _ in range(9)]
             pathfantasma.coordenadas=[]
+            coord=[]
             if(pathfantasma.resolverpath(2,4,p[0],p[1])):
                 
-                print("\nPATH RESULTANTE \n")
+                print("\nPATH RESULTANTE ")
                 pathfantasma.coordenadas.reverse()
-                print("coordenadas",pathfantasma.coordenadas)
-               
+                coord+=pathfantasma.coordenadas
+                print("CORD PACMAN",pathfantasma.coordenadas)
+                for i in range(len(pathfantasma.solucion)):
+                    for j in range(len(pathfantasma.solucion[i])):
+                        if(pathfantasma.solucion[i][j]==1):
+                            print("o",end=" ")
+                        else:
+                            print(".",end=" ")
+                    print(" ")
+                
+                pathfantasma.solucion = [[0]*9 for _ in range(9)]
                 
             else:
                 print("______ SIN SOLUCION EN PACMAN ________\n")
                 
                 
-                print("coordenadas",pathfantasma.coordenadas)
+                
                 print ("No solution")
             self.laberinto.mapa[p[0]][p[1]]=self
