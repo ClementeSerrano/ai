@@ -1,11 +1,14 @@
+#!/usr/bin/python
 import cocos
+import time
 import pyglet
 import random
 import sys
 import math
 import pacman
-from pacman import *
+import coordenadas
 from enemigo import *
+
 
 class Fantasma(Enemigo):
     def __init__(self,laberinto):
@@ -15,6 +18,11 @@ class Fantasma(Enemigo):
         self.sprite=cocos.sprite.Sprite(self.animaciones[self.frame])
         self.laberinto=laberinto
         self.movimientos=[[60,0],[0,60],[-60,0],[0,-60]]
+        self.cont=0
+        self.fantasma_x=3
+        self.fantasma_y=4
+        
+        
 
     def animar(self,px,py):
         self.frame+=1
@@ -30,7 +38,7 @@ class Fantasma(Enemigo):
             objeto=self.laberinto.objeto_en_celda(i,j)
             self.sprite.x-=movimiento[0]
             self.sprite.y-=movimiento[1]
-            if isinstance(objeto,Pacman):
+            if isinstance(objeto,pacman.Pacman):
                 print("te pille")
                 objeto.home()
                 return True
@@ -42,27 +50,78 @@ class Fantasma(Enemigo):
             return True
 
     def mover_aleatorio(self):
-        posiciones=list(range(0,len(self.movimientos)))
-            
-        while len(posiciones)>0:
+        
+        #posiciones=list(range(0,len(self.movimientos)))
+        if(len(coordenadas.aux_coord)!=0):
+            largo = len(coordenadas.aux_coord)
+            print("largo",largo)
+            if(self.cont==largo):
+                p=self.laberinto.en_celda(self.sprite.x,self.sprite.y)
+                print("P",p)
+                self.fantasma_x=p[0]
+                self.fantasma_y=p[1]
+                self.cont=0
+                return
+            while(self.cont<largo):
+                
+                movimiento=[]
+                print("self.cont",self.cont)
+                if coordenadas.aux_coord[self.cont]=="arriba":
+                    movimiento.append(0)
+                    movimiento.append(60)
+                    #print("movimiento arriba")
+                
+                if coordenadas.aux_coord[self.cont]=="abajo":
+                    movimiento.append(0)
+                    movimiento.append(-60)
+                    #print("movimiento abajo")
+                    
+                if coordenadas.aux_coord[self.cont]=="izquierda":
+                    movimiento.append(-60)
+                    movimiento.append(0)
+                    #print("movimiento izquierda")
+                
+                if coordenadas.aux_coord[self.cont]=="derecha":
+                    movimiento.append(60)
+                    movimiento.append(0)
+                    #print("movimiento derecha")
+                if self.movimiento_posible(movimiento):
+                    self.mover(movimiento)
+                    self.cont+=1
+                    print("CONTADOR",self.cont)
+                    return
+                        
+                
+                
+                
+                    
+        '''while len(posiciones)>0:
             i=random.choice(posiciones)
+           
             
+            #print("coooord",coordenadas.aux_coord)
+                #print("SOY EL FANTASMA\nCOORD",coord)
             posiciones.remove(i)
             movimiento=self.movimientos[i]
+            print("movimientos",movimiento)
             #print("movimiento",movimiento)
             if self.movimiento_posible(movimiento):
+                
                 self.mover(movimiento)
-                return
+                return'''
         
     def mover(self,movimiento):
         p=self.laberinto.en_celda(self.sprite.x,self.sprite.y)
         #print("P !",p)
-        #print("SOY EL FANTASMA\nCOORD",pacman.coord)
+        
         #print("movimiento x",movimiento[0])
         #print("movimiento y",movimiento[1])
         self.laberinto.mapa[p[0]][p[1]]=0
+       
         self.sprite.x+=movimiento[0]
         self.sprite.y+=movimiento[1]
         p=self.laberinto.en_celda(self.sprite.x,self.sprite.y)
         #print("SOY EL FANTASMA P",p)
         self.laberinto.mapa[p[0]][p[1]]=self
+        
+        

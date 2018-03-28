@@ -6,8 +6,11 @@ import math
 from comida import *
 from enemigo import *
 import pathfantasma 
+import coordenadas
+import fantasma
 
-coord=[]
+
+
 
 class Pacman:
     def __init__(self,laberinto):
@@ -18,6 +21,7 @@ class Pacman:
         self.vidas=3
         self.laberinto=laberinto
         self.puntaje=0
+    
 
     def home(self):
         p=self.laberinto.en_celda(self.sprite.x,self.sprite.y)
@@ -26,7 +30,7 @@ class Pacman:
         self.sprite.x=x
         self.sprite.y=y
         self.laberinto.mapa[0][0]=self
-
+   
     def mover(self,dx,dy):
         self.frame+=1
         if self.frame>2:
@@ -73,14 +77,18 @@ class Pacman:
            
            
             #pathfantasma.solucion = [[0]*9 for _ in range(9)]
+            
             pathfantasma.coordenadas=[]
-            coord=[]
-            if(pathfantasma.resolverpath(2,4,p[0],p[1])):
+            fant=fantasma.Fantasma(self.laberinto)
+            if(pathfantasma.resolverpath(fant.fantasma_x, fant.fantasma_y,p[0],p[1])):
                 
                 print("\nPATH RESULTANTE ")
                 pathfantasma.coordenadas.reverse()
-                coord+=pathfantasma.coordenadas
+                
                 print("CORD PACMAN",pathfantasma.coordenadas)
+                
+                coordenadas.aux_coord=pathfantasma.coordenadas
+                
                 for i in range(len(pathfantasma.solucion)):
                     for j in range(len(pathfantasma.solucion[i])):
                         if(pathfantasma.solucion[i][j]==1):

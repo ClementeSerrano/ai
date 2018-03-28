@@ -39,7 +39,7 @@ def resolverpath(r, c,x_fin,y_fin):
     #se toma en consideracion x_fin,y_fin como coordenadas target
     if (r==x_fin-1) and (c==y_fin-1):
         solucion[r][c] = 1;
-        coordenadas.append((r,c))
+        #coordenadas.append((r,c))
         print("OBJ: ",r,",",c)
         
         return True;
@@ -51,19 +51,19 @@ def resolverpath(r, c,x_fin,y_fin):
         solucion[r][c] = 1
         #hacia abajo
         if resolverpath(r+1, c,x_fin-1,y_fin-1):
-            coordenadas.append((r,c))
+            coordenadas.append("abajo")
             return True
         #hacia la derecha
         if resolverpath(r, c+1,x_fin-1,y_fin-1):
-            coordenadas.append((r,c))
+            coordenadas.append("derecha")
             return True
         #hacia arriba
         if resolverpath(r-1, c,x_fin-1,y_fin-1):
-            coordenadas.append((r,c))
+            coordenadas.append("arriba")
             return True
         #hacia la izquierda
         if resolverpath(r, c-1,x_fin-1,y_fin-1):
-            coordenadas.append((r,c))
+            coordenadas.append("izquierda")
             return True
         #backtracking
         solucion[r][c] = 0;
