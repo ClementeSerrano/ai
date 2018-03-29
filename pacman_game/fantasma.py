@@ -3,6 +3,7 @@ import cocos
 import time
 import pyglet
 import random
+import keyboard
 import sys
 import math
 import pacman
@@ -51,13 +52,35 @@ class Fantasma(Enemigo):
 
     def mover_aleatorio(self):
         
+        
+        if keyboard.is_pressed('up'):
+            print('KEY ARRIBA!')
+            #p=self.laberinto.en_celda(self.sprite.x,self.sprite.y)
+            #print("X:",p[0],"Y:",p[1])
+            return
+        if keyboard.is_pressed('down'):
+            print('KEY ABAJO!')
+            #p=self.laberinto.en_celda(self.sprite.x,self.sprite.y)
+            #print("X:",p[0],"Y:",p[1])
+            return
+        if keyboard.is_pressed('left'): 
+            print('KEY IZQUIERDA!')
+            #p=self.laberinto.en_celda(self.sprite.x,self.sprite.y)
+            #print("X:",p[0],"Y:",p[1])
+            return
+        if keyboard.is_pressed('right'):
+            print('KEY DERECHA!')
+            #p=self.laberinto.en_celda(self.sprite.x,self.sprite.y)
+            #print("X:",p[0],"Y:",p[1])
+            return
+    
         #posiciones=list(range(0,len(self.movimientos)))
         if(len(coordenadas.aux_coord)!=0):
             largo = len(coordenadas.aux_coord)
             print("largo",largo)
+            print("CONT",self.cont)
             if(self.cont==largo):
                 p=self.laberinto.en_celda(self.sprite.x,self.sprite.y)
-                print("P",p)
                 self.fantasma_x=p[0]
                 self.fantasma_y=p[1]
                 self.cont=0
@@ -65,7 +88,7 @@ class Fantasma(Enemigo):
             while(self.cont<largo):
                 
                 movimiento=[]
-                print("self.cont",self.cont)
+                
                 if coordenadas.aux_coord[self.cont]=="arriba":
                     movimiento.append(0)
                     movimiento.append(60)
@@ -90,25 +113,25 @@ class Fantasma(Enemigo):
                     self.cont+=1
                     print("CONTADOR",self.cont)
                     return
-                        
-                
-                
-                
+                            
                     
-        '''while len(posiciones)>0:
-            i=random.choice(posiciones)
-           
+                    
+                    
+                        
+            '''while len(posiciones)>0:
+                i=random.choice(posiciones)
             
-            #print("coooord",coordenadas.aux_coord)
-                #print("SOY EL FANTASMA\nCOORD",coord)
-            posiciones.remove(i)
-            movimiento=self.movimientos[i]
-            print("movimientos",movimiento)
-            #print("movimiento",movimiento)
-            if self.movimiento_posible(movimiento):
                 
-                self.mover(movimiento)
-                return'''
+                #print("coooord",coordenadas.aux_coord)
+                    #print("SOY EL FANTASMA\nCOORD",coord)
+                posiciones.remove(i)
+                movimiento=self.movimientos[i]
+                print("movimientos",movimiento)
+                #print("movimiento",movimiento)
+                if self.movimiento_posible(movimiento):
+                    
+                    self.mover(movimiento)
+                    return'''
         
     def mover(self,movimiento):
         p=self.laberinto.en_celda(self.sprite.x,self.sprite.y)
