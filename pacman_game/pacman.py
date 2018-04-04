@@ -3,14 +3,10 @@ import pyglet
 import random
 import sys
 import math
+import posiciones
+import fantasma
 from comida import *
 from enemigo import *
-import pathfantasma 
-import coordenadas
-import fantasma
-
-
-
 
 class Pacman:
     def __init__(self,laberinto):
@@ -21,7 +17,7 @@ class Pacman:
         self.vidas=3
         self.laberinto=laberinto
         self.puntaje=0
-    
+        self.pacman_posicion=[]
 
     def home(self):
         p=self.laberinto.en_celda(self.sprite.x,self.sprite.y)
@@ -30,7 +26,7 @@ class Pacman:
         self.sprite.x=x
         self.sprite.y=y
         self.laberinto.mapa[0][0]=self
-   
+
     def mover(self,dx,dy):
         self.frame+=1
         if self.frame>2:
@@ -42,18 +38,19 @@ class Pacman:
         self.sprite.y+=dy
 
         if ox<self.sprite.x:
-            #print("gire 180")
             self.sprite.rotation=180
         else:
-            #print("gire 0")
             self.sprite.rotation=0
         if oy<self.sprite.y:
-            #print("gire 90")
             self.sprite.rotation=90
         elif oy>self.sprite.y:
-            #print("gire 270")
             self.sprite.rotation=270
-
+        p=self.laberinto.en_celda(self.sprite.x,self.sprite.y)
+        self.pacman_posicion=[]
+        self.pacman_posicion.append(p[0])
+        self.pacman_posicion.append(p[1])
+        #fan=fantasma.Fantasma(self.laberinto)
+        posiciones.aux_pacman_coord=posiciones.Posiciones_Busqueda(self.pacman_posicion)
         if(self.laberinto.colision(self)):
             i,j=self.laberinto.en_celda(self.sprite.x,self.sprite.y)
             objeto=self.laberinto.objeto_en_celda(i,j)
@@ -70,39 +67,7 @@ class Pacman:
                 self.sprite.x-=dx
                 self.sprite.y-=dy
         else:
-            
             p=self.laberinto.en_celda(ox,oy)
             self.laberinto.mapa[p[0]][p[1]]=0
             p=self.laberinto.en_celda(self.sprite.x,self.sprite.y)
-           
-           
-            #pathfantasma.solucion = [[0]*9 for _ in range(9)]
-            
-            pathfantasma.coordenadas=[]
-            fant=fantasma.Fantasma(self.laberinto)
-            if(pathfantasma.resolverpath(fant.fantasma_x, fant.fantasma_y,p[0],p[1])):
-                
-                print("\nPATH RESULTANTE ")
-                pathfantasma.coordenadas.reverse()
-                
-                print("CORD PACMAN",pathfantasma.coordenadas)
-                
-                coordenadas.aux_coord=pathfantasma.coordenadas
-                
-                for i in range(len(pathfantasma.solucion)):
-                    for j in range(len(pathfantasma.solucion[i])):
-                        if(pathfantasma.solucion[i][j]==1):
-                            print("o",end=" ")
-                        else:
-                            print(".",end=" ")
-                    print(" ")
-                
-                pathfantasma.solucion = [[0]*9 for _ in range(9)]
-                
-            else:
-                print("______ SIN SOLUCION EN PACMAN ________\n")
-                
-                
-                
-                print ("No solution")
             self.laberinto.mapa[p[0]][p[1]]=self
