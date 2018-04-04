@@ -46,7 +46,6 @@ class Fantasma(Enemigo):
             return True
 
     def mover_aleatorio(self,px,py):
-        
         pacman_x=0
         pacman_y=0
         pacman_x,pacman_y=self.laberinto.en_celda(px,py)
@@ -59,16 +58,14 @@ class Fantasma(Enemigo):
                 movimiento=[]
                 movimientos_posibles=[(0,1),(0,-1),(1,0),(-1,0)]
                 for a in range(len(arreglo)):
-                    l=[]
+                    l=[] # lista vacia para determinar el movimiento
                     for i in range(2):
                         if(i==0):
                             row=arreglo[a][i]
                             
                         else:
                             col=arreglo[a][i]
-                    l.append((row,col))   
-                    #print("LLL",l[0])    
-                    
+                    l.append((row,col)) 
                     #derecha 
                     if((tuple(map(sum, zip(inicial[0], movimientos_posibles[0]))))==l[0]):
                         movimiento.append(60)
@@ -91,47 +88,7 @@ class Fantasma(Enemigo):
                         self.fantasma_x,self.fantasma_y=self.mover(movimiento)
                     
                     return       
-                    
-            '''
-            pathfantasma.coordenadas=[]
-            if(pathfantasma.resolverpath(self.fantasma_x, self.fantasma_y,pacman_x,pacman_y)):
-                print("\nPATH RESULTANTE ")
-                pathfantasma.coordenadas.reverse()
-                print("CORD PACMAN",pathfantasma.coordenadas)
-                print("POSICION FANTASMA",pacman_x,",",pacman_y)
-                pathfantasma.coordenadas
-                largo=len(pathfantasma.coordenadas)
-                for i in range(len(pathfantasma.solucion)):
-                    for j in range(len(pathfantasma.solucion[i])):
-                        if(pathfantasma.solucion[i][j]==1):
-                            print("o",end=" ")
-                        else:
-                            print(".",end=" ")
-                    print(" ")
-                pathfantasma.solucion = [[0]*9 for _ in range(9)]
-                
-               
-                if pathfantasma.coordenadas[0]=="arriba":
-                    movimiento.append(0)
-                    movimiento.append(60)
-                if pathfantasma.coordenadas[0]=="abajo":
-                    movimiento.append(0)
-                    movimiento.append(-60)
-                if pathfantasma.coordenadas[0]=="derecha":
-                    movimiento.append(60)
-                    movimiento.append(0)
-                if pathfantasma.coordenadas[0]=="izquierda":
-                    movimiento.append(-60)
-                    movimiento.append(0)
-                if(self.movimiento_posible(movimiento)):
-                    self.fantasma_x,self.fantasma_y=self.mover(movimiento)
-                    
-                    return
-                
-            else:
-                print("______ SIN SOLUCION EN PACMAN ________\n")
-            
-            print("LARG",largo)'''
+        
            
            
         
