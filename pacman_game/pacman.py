@@ -3,7 +3,6 @@ import pyglet
 import random
 import sys
 import math
-import posiciones
 import fantasma
 from comida import *
 from enemigo import *
@@ -50,7 +49,7 @@ class Pacman:
         self.pacman_posicion.append(p[0])
         self.pacman_posicion.append(p[1])
         #fan=fantasma.Fantasma(self.laberinto)
-        posiciones.aux_pacman_coord=posiciones.Posiciones_Busqueda(self.pacman_posicion)
+       
         if(self.laberinto.colision(self)):
             i,j=self.laberinto.en_celda(self.sprite.x,self.sprite.y)
             objeto=self.laberinto.objeto_en_celda(i,j)

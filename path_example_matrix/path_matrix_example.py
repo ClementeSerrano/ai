@@ -1,10 +1,12 @@
-#Resolution, path and movements of ghost
-#in PACMAN GAME between to points
+# Author: Christian Careaga (christian.careaga7@gmail.com)
+# A* Pathfinding in Python (2.7)
+# Please give credit if used
 
-N = 9 #size of matrix
-#board of the game in a matrix of 9x9
-board_game = [
-    [0,0,0,0,0,0,0,0,0],
+import numpy
+from heapq import *
+
+nmap = numpy.array([
+            [0,0,0,0,0,0,0,0,0],
             [0,1,0,1,1,1,0,1,0],
             [0,0,0,0,0,0,0,0,0],
             [1,1,0,1,0,1,0,1,1],
@@ -12,102 +14,97 @@ board_game = [
             [0,1,0,0,0,0,0,1,0],
             [0,0,0,1,1,1,0,0,0],
             [0,1,0,1,0,1,0,1,0],
-            [0,0,0,0,0,0,0,0,0]
-]
+            [0,0,0,0,0,0,0,0,0]])
 
+def heuristic(a, b):
+    return (b[0] - a[0]) ** 2 + (b[1] - a[1]) ** 2
 
+def astar(start, goal):
 
-#Matrix with coord_path
-solution_path = [[0]*N for _ in range(N)]
-coord_path=[]
+    neighbors = [(0,1),(0,-1),(1,0),(-1,0)]
 
+    close_set = set()
+    came_from = {}
+    gscore = {start:0}
+    fscore = {start:heuristic(start, goal)}
+    oheap = []
 
-#BACKTRACKING
-def resolve_path(r, c,x_end,y_end):
-    x_end+=1
-    y_end+=1
-   
-    #If we get the result the function ends
-    #the target is x_end,y_end that represent the obj
-    if (r==x_end-1) and (c==y_end-1):
-        solution_path[r][c] = 1;
-        coord_path.append((r,c))
-        print("Ini : 3 , 4 \n")
-        print("Obj :",r,",",c)
-        return True;
-    #check if safe to visit the cells in IF 
-    if r>=0 and c>=0 and r<N and c<N and solution_path[r][c] == 0 and board_game[r][c] == 0:
-        #if safe to visit then visit the cell
-        solution_path[r][c] = 1
-        #down
-        if resolve_path(r+1, c,x_end-1,y_end-1):
-            coord_path.append((r,c))
-            return True
-        #rigth
-        if resolve_path(r, c+1,x_end-1,y_end-1):
-            coord_path.append((r,c))
-            return True
-        #up
-        if resolve_path(r-1, c,x_end-1,y_end-1):
-            coord_path.append((r,c))
-            return True
-        #left
-        if resolve_path(r, c-1,x_end-1,y_end-1):
-            coord_path.append((r,c))
-            return True
-        #if not posible make a move then the cell is 0
-        #and return False
-        solution_path[r][c] = 0;
-        return False;
+    heappush(oheap, (fscore[start], start))
     
-    return 0;
+    while oheap:
 
-#print the matrix to see the walls and
-#the spaces of the game in this case
-#the spaces is      " . "
-#and the walls are  " # "
-print("BOARD GAME\n")
-for i in range(len(board_game)):
-    for j in range(len(board_game[i])):
-        if(board_game[i][j]==0):
-            print(".",end=" ")
-        else:
-            print("#",end=" ")
-    print(" ")
+        current = heappop(oheap)[1]
 
-print(" ")
-co1=int(input("please put obj x:"))
-co2=int(input("please put obj y:"))
-print("\nPATH SOLUTION\n")
-#resolve_path recive the coord Ini: 2,4
-#and de the obj the in this case is 5,5
-if(resolve_path(2,4,co1,co2)):
-    
-    coord_path.reverse()
-    print("\nCOORD OF THE PATH : ",coord_path)
-    for i in range(len(coord_path)):
-        for j in range(2):
-            if(j==0):
-                row=coord_path[i][j]
+        if current == goal:
+            data = []
+            while current in came_from:
+                data.append(current)
+                current = came_from[current]
+            return data
+
+        close_set.add(current)
+        for i, j in neighbors:
+            neighbor = current[0] + i, current[1] + j            
+            tentative_g_score = gscore[current] + heuristic(current, neighbor)
+            if 0 <= neighbor[0] < nmap.shape[0]:
+                if 0 <= neighbor[1] < nmap.shape[1]:                
+                    if nmap[neighbor[0]][neighbor[1]] == 1:
+                        continue
+                else:
+                    # array bound y walls
+                    continue
             else:
-                col=coord_path[i][j]
-        
-        board_game[row][col]=-1
-    print("\n")
-    for i in range(len(board_game)):
-        for j in range(len(board_game[i])):
-            if(board_game[i][j]==-1 ):
-                    
-                print("O",end=" ")
-            if(board_game[i][j]==1):
-                print("#",end=" ")
-            if(board_game[i][j]==0):
-                print(".",end=" ")
+                # array bound x walls
+                continue
+                
+            if neighbor in close_set and tentative_g_score >= gscore.get(neighbor, 0):
+                continue
+                
+            if  tentative_g_score < gscore.get(neighbor, 0) or neighbor not in [i[1]for i in oheap]:
+                came_from[neighbor] = current
+                gscore[neighbor] = tentative_g_score
+                fscore[neighbor] = tentative_g_score + heuristic(neighbor, goal)
+                
+                heappush(oheap, (fscore[neighbor], neighbor))
+                
+    return False
+
+'''Here is an example of using my algo with a numpy array,
+   astar(array, start, destination)
+   astar function returns a list of points (shortest path)'''
+
+
+arreglo=[] 
+inicial=[(0,0)]
+print(astar((0,0), (5,5)))
+arreglo+=astar((0,0), (5,5))
+arreglo.reverse()
+print("arreglo",arreglo)
+
+for a in range(len(arreglo)):
+    l=[]
+    for i in range(2):
+        if(i==0):
+            row=arreglo[a][i]
             
-        print(" ")
+        else:
+            col=arreglo[a][i]
+    l.append((row,col))   
+    #print("LLL",l[0])    
     
-    
-else:
-    print ("No solution")
+    #arriba 
+    if((tuple(map(sum, zip(inicial[0], movimiento[0]))))==l[0]):
+        print("derecha")
+    #abajo
+    if((tuple(map(sum, zip(inicial[0], movimiento[1]))))==l[0]):
+        print("izquierda")
+    #derecha
+    if((tuple(map(sum, zip(inicial[0], movimiento[2]))))==l[0]):
+        print("abajo")
+    #izquierda
+    if((tuple(map(sum, zip(inicial[0], movimiento[3]))))==l[0]):
+        print("arriba")
+    inicial=[]
+    inicial.append(arreglo[a])
 
 
