@@ -47,13 +47,14 @@ class Fantasma(Enemigo):
 
     def mover_aleatorio(self,px,py):
         pacman_x=0
-        pacman_y=0
+        pacman_y=0 
         pacman_x,pacman_y=self.laberinto.en_celda(px,py)
-        if(pacman_y!=0 and pacman_x!=0):
+        if(pacman_y!=0 or pacman_x!=0):
             if(astart.astar((self.fantasma_x, self.fantasma_y),(pacman_x,pacman_y))):
                 arreglo=[]
                 arreglo+=astart.astar((self.fantasma_x, self.fantasma_y),(pacman_x,pacman_y))
                 arreglo.reverse()
+                print(arreglo)
                 inicial=[(self.fantasma_x,self.fantasma_y)]
                 movimiento=[]
                 movimientos_posibles=[(0,1),(0,-1),(1,0),(-1,0)]
@@ -61,8 +62,7 @@ class Fantasma(Enemigo):
                     l=[] # lista vacia para determinar el movimiento
                     for i in range(2):
                         if(i==0):
-                            row=arreglo[a][i]
-                            
+                            row=arreglo[a][i] 
                         else:
                             col=arreglo[a][i]
                     l.append((row,col)) 
@@ -86,12 +86,7 @@ class Fantasma(Enemigo):
                     inicial.append(arreglo[a])
                     if(self.movimiento_posible(movimiento)):
                         self.fantasma_x,self.fantasma_y=self.mover(movimiento)
-                    
-                    return       
-        
-           
-           
-        
+                    return
 
     def mover(self,movimiento):
         p=self.laberinto.en_celda(self.sprite.x,self.sprite.y)

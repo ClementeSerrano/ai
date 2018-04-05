@@ -59,6 +59,8 @@ class Pacman:
                 self.laberinto.mapa[i][j]=0
             elif isinstance(objeto,Enemigo):
                 print("choque con un fantasma")
+                #pacman_y,pacman_x=self.laberinto.en_celda(self.sprite.x,self.sprite.y)
+                #print("x",pacman_x,"y",pacman_y)
                 self.sprite.x=ox
                 self.sprite.y=oy
                 self.home()
@@ -70,3 +72,5 @@ class Pacman:
             self.laberinto.mapa[p[0]][p[1]]=0
             p=self.laberinto.en_celda(self.sprite.x,self.sprite.y)
             self.laberinto.mapa[p[0]][p[1]]=self
+            #pacman_y,pacman_x=self.laberinto.en_celda(self.sprite.x,self.sprite.y)
+            #print("x",pacman_x,"y",pacman_y)
