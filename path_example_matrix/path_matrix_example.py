@@ -16,6 +16,17 @@ nmap = numpy.array([
             [0,1,0,1,0,1,0,1,0],
             [0,0,0,0,0,0,0,0,0]])
 
+solucionpath =[
+            [0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0]]
+
 def heuristic(a, b):
     return (b[0] - a[0]) ** 2 + (b[1] - a[1]) ** 2
 
@@ -74,12 +85,16 @@ def astar(start, goal):
    astar function returns a list of points (shortest path)'''
 
 
+
+
+print("Pacman 0 , 0")
+print("Fantasma  8 , 8")
 arreglo=[] 
-inicial=[(0,0)]
-print(astar((0,0), (5,5)))
-arreglo+=astar((0,0), (5,5))
+inicial=[(8,8)]
+arreglo+=astar((8,8), (0,0))
 arreglo.reverse()
-print("arreglo",arreglo)
+movimiento=[(0,1),(0,-1),(1,0),(-1,0)]
+print("\nPath Encontrado",arreglo)
 
 for a in range(len(arreglo)):
     l=[]
@@ -106,5 +121,25 @@ for a in range(len(arreglo)):
         print("arriba")
     inicial=[]
     inicial.append(arreglo[a])
+for a in range(len(arreglo)):
+    for i in range(2):
+        if(i==0):
+            row=arreglo[a][i]
+            
+        else:
+            col=arreglo[a][i]
+    solucionpath[row][col]=1
 
+print("\nSOLUCION EN MATRIZ ")
+#se agrega un -1 para la posicion del fantasma
+solucionpath[8][8]=-1
+for a in range(len(solucionpath)):
+    for b in range(len(solucionpath[a])):
+        if(solucionpath[a][b]==0):
+            print(".",end=" ")
+        elif(solucionpath[a][b]==-1):
+            print("*",end=" ")
+        else:
+            print("o",end=" ")
+    print(" ")
 
