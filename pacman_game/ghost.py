@@ -50,7 +50,6 @@ class Ghost(Enemy):
                 theArray=[]
                 theArray+=astart.astar((self.ghost_x, self.ghost_y),(pacman_x,pacman_y))
                 theArray.reverse()
-                print(theArray)
                 initial=[(self.ghost_x,self.ghost_y)]
                 movement=[]
                 possible_movements=[(0,1),(0,-1),(1,0),(-1,0)]
