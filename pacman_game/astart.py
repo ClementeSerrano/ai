@@ -1,26 +1,24 @@
-#A estrella Pathfinding modificado, para uso de juego pacman
+#A* pathfinding algorithm modified for the pacman game.
+
 import numpy
 from heapq import *
 
 nmap = numpy.array([
-            
-            [0,0,0,0,0,0,0,0,0],
-            [0,1,0,1,1,1,0,1,0],
-            [0,0,0,0,0,0,0,0,0],
-            [1,1,0,1,0,1,0,1,1],
-            [0,1,0,1,1,1,0,1,0],
-            [0,1,0,0,0,0,0,1,0],
-            [0,0,0,1,1,1,0,0,0],
-            [0,1,0,1,0,1,0,1,0],
-            [0,0,0,0,0,0,0,0,0]
-        
-            ])
+    [0,0,0,0,0,0,0,0,0],
+    [0,1,0,1,1,1,0,1,0],
+    [0,0,0,0,0,0,0,0,0],
+    [1,1,0,1,0,1,0,1,1],
+    [0,1,0,1,1,1,0,1,0],
+    [0,1,0,0,0,0,0,1,0],
+    [0,0,0,1,1,1,0,0,0],
+    [0,1,0,1,0,1,0,1,0],
+    [0,0,0,0,0,0,0,0,0]
+])
 
 def heuristic(a, b):
     return (b[0] - a[0]) ** 2 + (b[1] - a[1]) ** 2
 
 def astar(start, goal):
-
     neighbors = [(0,1),(0,-1),(1,0),(-1,0)]
 
     close_set = set()
@@ -32,7 +30,6 @@ def astar(start, goal):
     heappush(oheap, (fscore[start], start))
     
     while oheap:
-
         current = heappop(oheap)[1]
 
         if current == goal:
@@ -68,12 +65,3 @@ def astar(start, goal):
                 heappush(oheap, (fscore[neighbor], neighbor))
                 
     return False
-
-'''Here is an example of using my algo with a numpy array,
-   astar(array, start, destination)
-   astar function returns a list of points (shortest path)'''
-
-
-
-
-
