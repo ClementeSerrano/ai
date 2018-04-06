@@ -1,4 +1,5 @@
-#A estrella Pathfinding modificado, para uso de juego pacman
+#A* pathfinding algorithm modified for the pacman game.
+
 import numpy
 from heapq import *
 

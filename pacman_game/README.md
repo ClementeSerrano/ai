@@ -16,4 +16,4 @@ Just run ```$ python3 game.py``` (the ```game.py``` is the main file).
 ## Authors
 
 * **Camilo Zepeda** - *Initial work* 
-* **Clemente Serrano** - *Contributor* 
+* **Clemente Serrano** - *Bug fixer* 
