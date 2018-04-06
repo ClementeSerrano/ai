@@ -1,4 +1,4 @@
-# Author: Christian Careaga (christian.careaga7@gmail.com)
+
 # A* Pathfinding in Python (2.7)
 # Please give credit if used
 
